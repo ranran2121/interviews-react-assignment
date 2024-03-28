@@ -33,6 +33,7 @@ export const Categories = ({
           <ListItem
             key={text}
             disablePadding
+            data-testid={text}
             onClick={() => setCategory(text)}
             style={{ backgroundColor: category === text ? "#1976d2" : "" }}
           >
