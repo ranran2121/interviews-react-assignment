@@ -33,8 +33,12 @@ export type Cart = {
 };
 export const Products = ({
   onCartChange,
+  search,
+  category,
 }: {
   onCartChange: (cart: Cart) => void;
+  search: string | null;
+  category: string | null;
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [numberPages, setNumberPages] = useState(0);
@@ -53,17 +57,23 @@ export const Products = ({
   };
 
   useEffect(() => {
-    fetch(`/products?limit=${limit}&page=${page}`)
+    let url = `/products?limit=${limit}&page=${page}`;
+    if (search) {
+      url = url + `&q=${search}`;
+    }
+    if (category) {
+      url = url + `&category=${category}`;
+    }
+    console.log("URL", url);
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         setProducts(data.products);
         setNumberPages(
-          data.products.length > 0 //avoid division by 0
-            ? Math.floor(data.total / data.products.length)
-            : 0
+          data.total ? Math.floor(data.total / data.products.length) : 0
         );
       });
-  }, [limit, page]);
+  }, [category, limit, page, search]);
 
   function addToCart(productId: number, quantity: number) {
     setProducts(
