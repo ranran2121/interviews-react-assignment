@@ -9,6 +9,7 @@ import {
   IconButton,
   Typography,
   CircularProgress,
+  SelectChangeEvent,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -38,6 +39,7 @@ export const Products = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [numberPages, setNumberPages] = useState(0);
   const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
 
   const handlePaginationChange = (
     _: React.ChangeEvent<unknown>,
@@ -46,8 +48,12 @@ export const Products = ({
     setPage(value - 1); //subtract 1 as page is 0-indexed in the BE
   };
 
+  const handleLimitChange = (event: SelectChangeEvent<number>) => {
+    setLimit(event.target.value as number);
+  };
+
   useEffect(() => {
-    fetch(`/products?limit=100&page=${page}`)
+    fetch(`/products?limit=${limit}&page=${page}`)
       .then((response) => response.json())
       .then((data) => {
         setProducts(data.products);
@@ -57,7 +63,7 @@ export const Products = ({
             : 0
         );
       });
-  }, [page]);
+  }, [limit, page]);
 
   function addToCart(productId: number, quantity: number) {
     setProducts(
@@ -100,7 +106,9 @@ export const Products = ({
   return (
     <>
       <PaginationComponent
+        limit={limit}
         numberPages={numberPages}
+        handleLimitChange={handleLimitChange}
         handlePaginationChange={handlePaginationChange}
       />
       <Box overflow="scroll" height="100%">

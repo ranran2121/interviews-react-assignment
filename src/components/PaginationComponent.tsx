@@ -1,24 +1,59 @@
 import React from "react";
-import { Pagination } from "@mui/material";
+import {
+  Pagination,
+  Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 
 type Props = {
   numberPages: number;
+  limit: number;
   handlePaginationChange: (
     _: React.ChangeEvent<unknown>,
     value: number
   ) => void;
+  handleLimitChange: (event: SelectChangeEvent<number>) => void;
 };
 
 const PaginationComponent = ({
   numberPages,
+  limit,
+  handleLimitChange,
   handlePaginationChange,
 }: Props) => {
   return (
-    <Pagination
-      count={numberPages}
-      color="primary"
-      onChange={handlePaginationChange}
-    />
+    <Stack
+      direction={{ xs: "column", md: "row" }}
+      justifyContent={{ md: "space-between" }}
+      alignItems={{ xs: "center" }}
+      sx={{ my: 4 }}
+      gap={2}
+      pr={2}
+    >
+      <Pagination
+        count={numberPages}
+        color="primary"
+        onChange={handlePaginationChange}
+      />
+      <FormControl sx={{ minWidth: "100px" }}>
+        <InputLabel id="number-of-items-label">Items/Page</InputLabel>
+        <Select
+          labelId="number-of-items-label"
+          id="number-of-items-select"
+          value={limit}
+          label="Number of Items"
+          onChange={handleLimitChange}
+        >
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
+          <MenuItem value={100}>100</MenuItem>
+        </Select>
+      </FormControl>
+    </Stack>
   );
 };
 
