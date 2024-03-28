@@ -29,7 +29,7 @@ function App() {
           setSearch={setSearch}
         />
         <Box flex={1} display="flex" flexDirection="row">
-          <Categories setCategory={setCategory} />
+          <Categories setCategory={setCategory} category={category} />
           <Box flex={1}>
             <Products
               onCartChange={onCartChange}

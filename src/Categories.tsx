@@ -8,7 +8,7 @@ import {
 
 const drawerWidth = 180;
 
-const categories = [
+export const categories = [
   "Fruit",
   "Vegetables",
   "Dairy",
@@ -21,23 +21,31 @@ const categories = [
 
 export const Categories = ({
   setCategory,
+  category,
 }: {
-  setCategory: (data: string) => void;
+  setCategory: (data: string | null) => void;
+  category: string | null;
 }) => {
-  const handleClick = (category: string) => {
-    setCategory(category);
-  };
-
   return (
     <Box minWidth={drawerWidth} sx={{ borderRight: "1px solid grey" }}>
       <List>
         {categories.map((text) => (
-          <ListItem key={text} disablePadding onClick={() => handleClick(text)}>
+          <ListItem
+            key={text}
+            disablePadding
+            onClick={() => setCategory(text)}
+            style={{ backgroundColor: category === text ? "#1976d2" : "" }}
+          >
             <ListItemButton>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem key="all" disablePadding onClick={() => setCategory(null)}>
+          <ListItemButton>
+            <ListItemText primary={"All"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );

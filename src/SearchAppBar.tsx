@@ -61,7 +61,6 @@ export default function SearchAppBar({
   setSearch: (data: string) => void;
 }>) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("E", e.target.value);
     setSearch(e.target.value);
   };
   return (
