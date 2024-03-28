@@ -60,9 +60,6 @@ export default function SearchAppBar({
   price: number;
   setSearch: (data: string) => void;
 }>) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
   return (
     <Box>
       <AppBar position="relative">
@@ -82,7 +79,9 @@ export default function SearchAppBar({
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              onChange={handleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
             />
           </Search>
           <Box display="flex" flexDirection="row" mx={2}>
