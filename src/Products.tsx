@@ -1,20 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Typography,
-  CircularProgress,
-  SelectChangeEvent,
-} from "@mui/material";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
-import { HeavyComponent } from "./HeavyComponent.tsx";
+import { Box, Grid, SelectChangeEvent } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import PaginationComponent from "./components/PaginationComponent.tsx";
+import ItemCard from "./components/ItemCard.tsx";
 
 export type Product = {
   id: number;
@@ -26,24 +14,33 @@ export type Product = {
   loading: boolean;
 };
 
+export type CartItemType = {
+  product: Product;
+  quantity: number;
+};
+
 export type Cart = {
-  items: Product[];
+  items: CartItemType[];
   totalPrice: number;
   totalItems: number;
 };
+
 export const Products = ({
   onCartChange,
   search,
   category,
+  cart,
 }: {
   onCartChange: (cart: Cart) => void;
   search: string | null;
   category: string | null;
+  cart: Cart | undefined;
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [numberPages, setNumberPages] = useState(0);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [error, setError] = useState(false);
 
   const handlePaginationChange = (
     _: React.ChangeEvent<unknown>,
@@ -75,43 +72,13 @@ export const Products = ({
       });
   }, [category, limit, page, search]);
 
-  function addToCart(productId: number, quantity: number) {
-    setProducts(
-      products.map((product) => {
-        if (product.id === productId) {
-          return {
-            ...product,
-            loading: true,
-          };
-        }
-        return product;
-      })
-    );
-    fetch("/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ productId, quantity }),
-    }).then(async (response) => {
-      if (response.ok) {
-        const cart = await response.json();
-        setProducts(
-          products.map((product) => {
-            if (product.id === productId) {
-              return {
-                ...product,
-                itemInCart: (product.itemInCart || 0) + quantity,
-                loading: false,
-              };
-            }
-            return product;
-          })
-        );
-        onCartChange(cart);
-      }
-    });
-  }
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
+    }
+  }, [error]);
 
   return (
     <>
@@ -121,72 +88,21 @@ export const Products = ({
         handleLimitChange={handleLimitChange}
         handlePaginationChange={handlePaginationChange}
       />
+      {error && (
+        <Alert severity="error">
+          Ops. Something went wrong, please try again later
+        </Alert>
+      )}
       <Box overflow="scroll" height="100%">
         <Grid container spacing={2} p={2}>
           {products.map((product) => (
-            <Grid item xs={4} key={product.id}>
-              {/* Do not remove this */}
-              <HeavyComponent />
-              <Card key={product.id} style={{ width: "100%" }}>
-                <CardMedia
-                  component="img"
-                  height="150"
-                  image={product.imageUrl}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Typography variant="h6" component="div">
-                    ${product.price}
-                  </Typography>
-                  <Box flexGrow={1} />
-                  <Box
-                    position="relative"
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                  >
-                    <Box
-                      position="absolute"
-                      left={0}
-                      right={0}
-                      top={0}
-                      bottom={0}
-                      textAlign="center"
-                    >
-                      {product.loading && <CircularProgress size={20} />}
-                    </Box>
-                    <IconButton
-                      disabled={product.loading}
-                      aria-label="delete"
-                      size="small"
-                      onClick={() => addToCart(product.id, -1)}
-                    >
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-
-                    <Typography variant="body1" component="div" mx={1}>
-                      {product.itemInCart || 0}
-                    </Typography>
-
-                    <IconButton
-                      disabled={product.loading}
-                      aria-label="add"
-                      size="small"
-                      onClick={() => addToCart(product.id, 1)}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                </CardActions>
-              </Card>
-            </Grid>
+            <ItemCard
+              product={product}
+              key={product.id}
+              onCartChange={onCartChange}
+              setError={setError}
+              cart={cart}
+            />
           ))}
         </Grid>
       </Box>
