@@ -123,7 +123,12 @@ const ItemCard = memo(({ product, onCartChange, setError, cart }: Props) => {
               <RemoveIcon fontSize="small" />
             </IconButton>
 
-            <Typography variant="body1" component="div" mx={1}>
+            <Typography
+              variant="body1"
+              component="div"
+              mx={1}
+              data-testid={`${currentProduct.id}-quantity`}
+            >
               {currentProduct.itemInCart || 0}
             </Typography>
 
