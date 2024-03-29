@@ -35,6 +35,7 @@ function App() {
               onCartChange={onCartChange}
               search={search}
               category={category}
+              cart={cart}
             />
           </Box>
         </Box>
