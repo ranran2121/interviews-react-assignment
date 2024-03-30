@@ -56,12 +56,12 @@ export default function SearchAppBar({
   quantity,
   price,
   setSearch,
-  setOpen,
+  setOpenCartDialog,
 }: Readonly<{
   quantity: number;
   price: number;
   setSearch: (data: string) => void;
-  setOpen: (data: boolean) => void;
+  setOpenCartDialog: (data: boolean) => void;
 }>) {
   return (
     <Box>
@@ -96,7 +96,10 @@ export default function SearchAppBar({
             </Typography>
           </Box>
           <Badge badgeContent={quantity || 0} color="secondary">
-            <IconButton aria-label="cart" onClick={() => setOpen(true)}>
+            <IconButton
+              aria-label="cart"
+              onClick={() => setOpenCartDialog(true)}
+            >
               <ShoppingCartIcon />
             </IconButton>
           </Badge>

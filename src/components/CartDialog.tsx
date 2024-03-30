@@ -15,20 +15,26 @@ import StepFour from "./CartForm/StepFour";
 import LinearStepper from "./CartForm/LinearStepper";
 
 type Props = {
-  open: boolean;
-  setOpen: (value: boolean) => void;
+  openCartDialog: boolean;
+  setOpenCartDialog: (value: boolean) => void;
   cart: Cart | undefined;
+  setConfirmation: (value: boolean) => void;
 };
 
-const CartDialog = ({ open, setOpen, cart }: Props) => {
+const CartDialog = ({
+  openCartDialog,
+  setOpenCartDialog,
+  setConfirmation,
+  cart,
+}: Props) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
   const [activeStep, setActiveStep] = useState(0);
 
   return (
     <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
+      open={openCartDialog}
+      onClose={() => setOpenCartDialog(false)}
       PaperProps={{
         component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +43,8 @@ const CartDialog = ({ open, setOpen, cart }: Props) => {
           const formJson = Object.fromEntries(formData.entries());
 
           console.log("FORM", formJson);
-          setOpen(false);
+          setOpenCartDialog(false);
+          setConfirmation(true);
         },
       }}
     >
@@ -70,8 +77,13 @@ const CartDialog = ({ open, setOpen, cart }: Props) => {
         )}
       </DialogContent>
       {activeStep === 3 && (
-        <StepFour setPaymentMethod={setPaymentMethod} setOpen={setOpen} />
+        <StepFour
+          setAddress={setAddress}
+          setPaymentMethod={setPaymentMethod}
+          setOpenCartDialog={setOpenCartDialog}
+        />
       )}
+
       <Divider sx={{ my: 4 }} />
       <LinearStepper
         paymentMethod={paymentMethod}

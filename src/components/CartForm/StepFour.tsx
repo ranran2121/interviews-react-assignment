@@ -5,10 +5,15 @@ import Stack from "@mui/material/Stack";
 
 type Props = {
   setPaymentMethod: (data: string) => void;
-  setOpen: (data: boolean) => void;
+  setAddress: (data: string) => void;
+  setOpenCartDialog: (data: boolean) => void;
 };
 
-const StepFour = ({ setOpen, setPaymentMethod }: Props) => {
+const StepFour = ({
+  setOpenCartDialog,
+  setPaymentMethod,
+  setAddress,
+}: Props) => {
   return (
     <Stack textAlign={"center"}>
       <Typography>Do you want to proceed?</Typography>
@@ -17,7 +22,8 @@ const StepFour = ({ setOpen, setPaymentMethod }: Props) => {
           <Button
             onClick={() => {
               setPaymentMethod("");
-              setOpen(false);
+              setAddress("");
+              setOpenCartDialog(false);
             }}
             variant="outlined"
           >
