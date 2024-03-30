@@ -31,6 +31,12 @@ const CartDialog = ({
   const [address, setAddress] = useState("");
   const [activeStep, setActiveStep] = useState(0);
 
+  const resetCheckOut = () => {
+    setActiveStep(0);
+    setAddress("");
+    setPaymentMethod("");
+  };
+
   return (
     <Dialog
       open={openCartDialog}
@@ -39,10 +45,8 @@ const CartDialog = ({
         component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries(formData.entries());
 
-          console.log("FORM", formJson);
+          resetCheckOut();
           setOpenCartDialog(false);
           setConfirmation(true);
         },
