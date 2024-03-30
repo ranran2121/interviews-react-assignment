@@ -13,12 +13,17 @@ const theme = createTheme({
   // other theme properties
 });
 
+const confirmationMap = {
+  success: "Congratulation your order is confirmed",
+  fail: "Ops. Something went wrong, please try again later",
+};
+
 function App() {
   const [cart, setCart] = useState<Cart | undefined>();
   const [search, setSearch] = useState<string | null>(null);
   const [category, setCategory] = useState<string | null>(null);
   const [openCartDialog, setOpenCartDialog] = useState(false);
-  const [confirmation, setConfirmation] = useState(false);
+  const [confirmation, setConfirmation] = useState("");
 
   function onCartChange(cart: Cart) {
     setCart(cart);
@@ -28,7 +33,7 @@ function App() {
     if (confirmation) {
       setCart(undefined);
       setTimeout(() => {
-        setConfirmation(false);
+        setConfirmation("");
       }, 3000);
     }
   }, [confirmation]);
@@ -45,8 +50,8 @@ function App() {
           cart={cart}
         />
         {confirmation && (
-          <Alert severity="success">
-            Congratulation your order is confirmed
+          <Alert severity={confirmation === "success" ? "success" : "error"}>
+            {confirmationMap[confirmation as keyof typeof confirmationMap]}
           </Alert>
         )}
         <Box flex={1} display="flex" flexDirection="row">

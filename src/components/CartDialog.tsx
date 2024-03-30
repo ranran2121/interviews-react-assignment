@@ -18,7 +18,7 @@ type Props = {
   openCartDialog: boolean;
   setOpenCartDialog: (value: boolean) => void;
   cart: Cart | undefined;
-  setConfirmation: (value: boolean) => void;
+  setConfirmation: (value: string) => void;
 };
 
 const CartDialog = ({
@@ -43,12 +43,28 @@ const CartDialog = ({
       onClose={() => setOpenCartDialog(false)}
       PaperProps={{
         component: "form",
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+        onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
 
-          resetCheckOut();
-          setOpenCartDialog(false);
-          setConfirmation(true);
+          try {
+            const response = await fetch("/orders", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ cart, address, paymentMethod }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Error");
+            }
+            setConfirmation("success");
+          } catch (e) {
+            setConfirmation("fail");
+          } finally {
+            resetCheckOut();
+            setOpenCartDialog(false);
+          }
         },
       }}
     >
