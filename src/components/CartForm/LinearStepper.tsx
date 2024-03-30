@@ -24,9 +24,7 @@ export default function LinearStepper({
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleNext = () => {
-    console.log("QUI", activeStep, address);
     if (activeStep === 1 && !address) {
-      console.log("QUI");
       setIsDisabled(true);
       return;
     }
