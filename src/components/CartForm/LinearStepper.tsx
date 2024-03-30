@@ -24,7 +24,9 @@ export default function LinearStepper({
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleNext = () => {
+    console.log("QUI", activeStep, address);
     if (activeStep === 1 && !address) {
+      console.log("QUI");
       setIsDisabled(true);
       return;
     }
@@ -46,20 +48,15 @@ export default function LinearStepper({
   };
 
   useEffect(() => {
-    if (activeStep === 1 && !address) {
+    if (
+      (activeStep === 1 && !address) ||
+      (activeStep === 2 && !paymentMethod)
+    ) {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
-  }, [activeStep, address]);
-
-  useEffect(() => {
-    if (activeStep === 2 && !paymentMethod) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
-    }
-  }, [activeStep, paymentMethod]);
+  }, [activeStep, address, paymentMethod]);
 
   return (
     <Box sx={{ width: "100%" }}>
