@@ -84,19 +84,30 @@ export default function LinearStepper({
         </>
       ) : (
         <>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              p: 2,
+              justifyContent: "space-evenly",
+            }}
+          >
             <Button
-              color="inherit"
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
+              variant="outlined"
             >
               Back
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
 
             {activeStep < steps.length - 1 && (
-              <Button onClick={handleNext} disabled={isDisabled}>
+              <Button
+                onClick={handleNext}
+                disabled={isDisabled}
+                variant="outlined"
+              >
                 Next
               </Button>
             )}
