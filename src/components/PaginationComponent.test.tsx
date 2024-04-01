@@ -12,6 +12,7 @@ describe("Pagination Component", () => {
         numberPages={NUMBERPAGES}
         handlePaginationChange={() => {}}
         handleLimitChange={() => {}}
+        page={1}
       />
     );
 
@@ -33,6 +34,7 @@ describe("Pagination Component", () => {
         numberPages={NUMBERPAGES}
         handlePaginationChange={mockHandlePaginationChange}
         handleLimitChange={() => {}}
+        page={1}
       />
     );
 
@@ -53,6 +55,7 @@ describe("Pagination Component", () => {
         numberPages={4}
         handlePaginationChange={() => {}}
         handleLimitChange={() => {}}
+        page={1}
       />
     );
 
@@ -63,7 +66,7 @@ describe("Pagination Component", () => {
   });
   it("should set the clicked items/page", async () => {
     const LIMIT = "50";
-    const mockhandleLimitChange = jest.fn();
+    const mockHandleLimitChange = jest.fn();
     const regex = new RegExp(LIMIT, "i");
 
     render(
@@ -71,7 +74,8 @@ describe("Pagination Component", () => {
         limit={100}
         numberPages={4}
         handlePaginationChange={() => {}}
-        handleLimitChange={mockhandleLimitChange}
+        handleLimitChange={mockHandleLimitChange}
+        page={1}
       />
     );
 
@@ -82,7 +86,7 @@ describe("Pagination Component", () => {
     const menuItem = await screen.findByRole("option", { name: regex });
     await userEvent.click(menuItem);
 
-    expect(mockhandleLimitChange.mock.calls[0][1].props.value).toBe(
+    expect(mockHandleLimitChange.mock.calls[0][1].props.value).toBe(
       Number(LIMIT)
     );
   });

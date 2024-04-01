@@ -53,6 +53,7 @@ export const Products = ({
 
   const handleLimitChange = (event: SelectChangeEvent<number>) => {
     setLimit(event.target.value as number);
+    setPage(0);
   };
 
   useEffect(() => {
@@ -68,9 +69,7 @@ export const Products = ({
       .then((response) => response.json())
       .then((data) => {
         setProducts(data.products);
-        setNumberPages(
-          data.total ? Math.floor(data.total / data.products.length) : 0
-        );
+        setNumberPages(data.total ? Math.ceil(data.total / limit) : 0);
       });
   }, [category, limit, page, search]);
 
@@ -87,6 +86,7 @@ export const Products = ({
       <PaginationComponent
         limit={limit}
         numberPages={numberPages}
+        page={page}
         handleLimitChange={handleLimitChange}
         handlePaginationChange={handlePaginationChange}
       />
