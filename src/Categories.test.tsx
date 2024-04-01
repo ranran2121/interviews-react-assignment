@@ -1,7 +1,8 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Categories, categories } from "./Categories";
+import { Categories } from "./Categories";
+import { categories } from "./mocks/categories";
 
 describe("Categories Component", () => {
   it("should highlight the selected category", async () => {

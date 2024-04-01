@@ -12,8 +12,28 @@ const ITEMCARD = {
   loading: false,
 };
 
+const CART = {
+  items: [],
+  totalItems: 0,
+  totalPrice: 0,
+};
+
 describe("Item Cart component", () => {
   it("should render the quantity indicated in the cart", () => {
+    render(
+      <ItemCard
+        product={ITEMCARD}
+        cart={CART}
+        onCartChange={() => {}}
+        setError={() => {}}
+      />
+    );
+
+    const quantityText = screen.getByTestId(`${ITEMCARD.id}-quantity`);
+    expect(quantityText).toHaveTextContent(String(ITEMCARD.itemInCart));
+  });
+
+  it("should reset the quantity if the cart is empty", () => {
     render(
       <ItemCard
         product={ITEMCARD}
@@ -24,6 +44,6 @@ describe("Item Cart component", () => {
     );
 
     const quantityText = screen.getByTestId(`${ITEMCARD.id}-quantity`);
-    expect(quantityText).toHaveTextContent(String(ITEMCARD.itemInCart));
+    expect(quantityText).toHaveTextContent(String(0));
   });
 });

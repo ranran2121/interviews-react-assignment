@@ -8,7 +8,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Cart } from "./Products";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,13 +57,11 @@ export default function SearchAppBar({
   price,
   setSearch,
   setOpenCartDialog,
-  cart,
 }: Readonly<{
   quantity: number;
   price: number;
   setSearch: (data: string) => void;
   setOpenCartDialog: (data: boolean) => void;
-  cart: Cart | undefined;
 }>) {
   return (
     <Box>
@@ -102,7 +99,7 @@ export default function SearchAppBar({
             <IconButton
               aria-label="cart"
               onClick={() => {
-                if (cart) {
+                if (quantity && price) {
                   setOpenCartDialog(true);
                 }
               }}

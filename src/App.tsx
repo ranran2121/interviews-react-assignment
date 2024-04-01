@@ -47,7 +47,6 @@ function App() {
           price={cart?.totalPrice || 0}
           setSearch={setSearch}
           setOpenCartDialog={setOpenCartDialog}
-          cart={cart}
         />
         {confirmation && (
           <Alert severity={confirmation === "success" ? "success" : "error"}>
