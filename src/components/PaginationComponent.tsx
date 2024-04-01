@@ -10,6 +10,7 @@ import { SelectChangeEvent } from "@mui/material";
 type Props = {
   numberPages: number;
   limit: number;
+  page: number;
   handlePaginationChange: (
     _: React.ChangeEvent<unknown>,
     value: number
@@ -20,6 +21,7 @@ type Props = {
 const PaginationComponent = ({
   numberPages,
   limit,
+  page,
   handleLimitChange,
   handlePaginationChange,
 }: Props) => {
@@ -36,6 +38,7 @@ const PaginationComponent = ({
         count={numberPages}
         color="primary"
         onChange={handlePaginationChange}
+        page={page + 1}
       />
       <FormControl sx={{ minWidth: "100px" }}>
         <InputLabel id="number-of-items-label">Items/Page</InputLabel>
