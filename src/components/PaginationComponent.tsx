@@ -1,13 +1,11 @@
 import React from "react";
-import {
-  Pagination,
-  Stack,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-} from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { SelectChangeEvent } from "@mui/material";
 
 type Props = {
   numberPages: number;

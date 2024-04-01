@@ -1,14 +1,12 @@
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -72,6 +70,11 @@ const ItemCard = memo(({ product, onCartChange, setError, cart }: Props) => {
           itemInCart: productInCart?.quantity,
         });
       }
+    } else {
+      setCurrentProduct({
+        ...product,
+        itemInCart: 0,
+      });
     }
   }, [cart, product, product.id]);
 

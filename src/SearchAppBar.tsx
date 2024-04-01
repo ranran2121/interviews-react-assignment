@@ -5,7 +5,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Badge } from "@mui/material";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Search = styled("div")(({ theme }) => ({
@@ -55,10 +56,12 @@ export default function SearchAppBar({
   quantity,
   price,
   setSearch,
+  setOpenCartDialog,
 }: Readonly<{
   quantity: number;
   price: number;
   setSearch: (data: string) => void;
+  setOpenCartDialog: (data: boolean) => void;
 }>) {
   return (
     <Box>
@@ -93,7 +96,16 @@ export default function SearchAppBar({
             </Typography>
           </Box>
           <Badge badgeContent={quantity || 0} color="secondary">
-            <ShoppingCartIcon />
+            <IconButton
+              aria-label="cart"
+              onClick={() => {
+                if (quantity && price) {
+                  setOpenCartDialog(true);
+                }
+              }}
+            >
+              <ShoppingCartIcon />
+            </IconButton>
           </Badge>
         </Toolbar>
       </AppBar>

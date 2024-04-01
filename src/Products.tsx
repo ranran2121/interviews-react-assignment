@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import PaginationComponent from "./components/PaginationComponent.tsx";
 import ItemCard from "./components/ItemCard.tsx";
 
