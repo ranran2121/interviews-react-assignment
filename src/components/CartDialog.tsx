@@ -35,6 +35,7 @@ const CartDialog = ({
     setActiveStep(0);
     setAddress("");
     setPaymentMethod("");
+    setOpenCartDialog(false);
   };
 
   return (
@@ -63,7 +64,6 @@ const CartDialog = ({
             setConfirmation("fail");
           } finally {
             resetCheckOut();
-            setOpenCartDialog(false);
           }
         },
       }}
@@ -96,13 +96,7 @@ const CartDialog = ({
           />
         )}
       </DialogContent>
-      {activeStep === 3 && (
-        <StepFour
-          setAddress={setAddress}
-          setPaymentMethod={setPaymentMethod}
-          setOpenCartDialog={setOpenCartDialog}
-        />
-      )}
+      {activeStep === 3 && <StepFour resetCheckOut={resetCheckOut} />}
 
       <Divider sx={{ my: 4 }} />
       <LinearStepper

@@ -4,29 +4,16 @@ import DialogActions from "@mui/material/DialogActions";
 import Stack from "@mui/material/Stack";
 
 type Props = {
-  setPaymentMethod: (data: string) => void;
-  setAddress: (data: string) => void;
-  setOpenCartDialog: (data: boolean) => void;
+  resetCheckOut: () => void;
 };
 
-const StepFour = ({
-  setOpenCartDialog,
-  setPaymentMethod,
-  setAddress,
-}: Props) => {
+const StepFour = ({ resetCheckOut }: Props) => {
   return (
     <Stack textAlign={"center"}>
       <Typography>Do you want to proceed?</Typography>
       <Stack direction="row" justifyContent={"center"}>
         <DialogActions>
-          <Button
-            onClick={() => {
-              setPaymentMethod("");
-              setAddress("");
-              setOpenCartDialog(false);
-            }}
-            variant="outlined"
-          >
+          <Button onClick={resetCheckOut} variant="outlined">
             Cancel
           </Button>
           <Button variant="outlined" type="submit">

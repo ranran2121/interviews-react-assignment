@@ -25,39 +25,42 @@ const ItemCard = memo(({ product, onCartChange, setError, cart }: Props) => {
   const [currentProduct, setCurrentProduct] = useState(product);
 
   async function addToCart(productId: number, quantity: number) {
-    setCurrentProduct({
-      ...product,
-      loading: true,
-    });
-
-    try {
-      const response = await fetch("/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId, quantity }),
-      });
-
-      const cart = await response.json();
-
+    if ((currentProduct.itemInCart || 0) + quantity >= 0) {
       setCurrentProduct({
         ...product,
-        itemInCart: (currentProduct.itemInCart || 0) + quantity,
-        loading: false,
+        loading: true,
       });
 
-      onCartChange(cart);
-    } catch (err) {
-      setCurrentProduct({
-        ...product,
-        itemInCart: currentProduct.itemInCart || 0,
-        loading: false,
-      });
-      setError(true);
+      try {
+        const response = await fetch("/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId, quantity }),
+        });
+
+        const cart = await response.json();
+
+        setCurrentProduct({
+          ...product,
+          itemInCart: (currentProduct.itemInCart || 0) + quantity,
+          loading: false,
+        });
+
+        onCartChange(cart);
+      } catch (err) {
+        setCurrentProduct({
+          ...product,
+          itemInCart: currentProduct.itemInCart || 0,
+          loading: false,
+        });
+        setError(true);
+      }
     }
   }
 
+  //This useEffect is needed to keep the item's quantity in sync with the cart after moving back and forth the pagination
   useEffect(() => {
     if (cart) {
       const productInCart = cart.items.find(
