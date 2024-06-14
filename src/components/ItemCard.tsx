@@ -60,6 +60,7 @@ const ItemCard = memo(({ product, onCartChange, setError, cart }: Props) => {
     }
   }
 
+  //This useEffect is needed to keep the item's quantity in sync with the cart after moving back and forth the pagination
   useEffect(() => {
     if (cart) {
       const productInCart = cart.items.find(
